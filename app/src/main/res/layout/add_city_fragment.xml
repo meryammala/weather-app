@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add new city"
+        android:layout_marginTop="50dp"
+        android:textSize="24dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_city"
+        style="@style/TextInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="left|center_vertical"
+        android:gravity="left|center_vertical"
+        android:hint="City name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_input_edit_text_city"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center_vertical"
+            android:gravity="left|center_vertical"
+            android:lines="1"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/addCityActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:text="Add city"
+        />
+
+
+</LinearLayout>

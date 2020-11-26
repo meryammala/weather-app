@@ -1,3 +1,9 @@
 <resources>
+
     <string name="app_name">WeatherApp</string>
+    <string name="open_weather_api_key">bd7a292e6db70407ed32e2f9305cfe58</string>
+    <string name="cities_title">Your cities</string>
+    <string name="add_city_title">New city</string>
+    <string name="weather_details_title">Weather informations</string>
+
 </resources>
