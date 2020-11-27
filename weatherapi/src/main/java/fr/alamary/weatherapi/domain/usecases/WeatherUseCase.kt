@@ -2,27 +2,35 @@ package fr.alamary.weatherapi.domain.usecases
 
 import fr.alamary.weatherapi.data.source.remote.exceptions.RxErrorHandler
 import fr.alamary.weatherapi.data.models.GlobalWeatherInformations
+import fr.alamary.weatherapi.data.repositories.WeatherRepositoryImpl
 import fr.alamary.weatherapi.domain.repositories.IWeatherRepository
 import fr.alamary.weatherapi.domain.entities.CityEntity
+import fr.alamary.weatherapi.domain.entities.WeatherEntity
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Subscriber
 import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingQueue
 
 
-class WeatherUseCase(private val IWeatherRepository: IWeatherRepository) {
+class WeatherUseCase() {
+    private val weatherRepository: IWeatherRepository = WeatherRepositoryImpl()
 
-    fun getGlobalWeatherInformations(city : CityEntity, lang : String? = "EN", subscriber: Subscriber<GlobalWeatherInformations>){
+    // Get global weather informations using one call weather api
+    fun getGlobalWeatherInformations(city : CityEntity, lang : String? = "EN", subscriber: Subscriber<WeatherEntity>){
         var tasks = LinkedBlockingQueue<Runnable>()
-        IWeatherRepository.getCityWeather(city,subscriber)
+        weatherRepository.getWeather(city,subscriber)
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.from(Executor { runnable -> tasks.add(runnable) }))
-            .onErrorResumeNext(RxErrorHandler<GlobalWeatherInformations>())
+            .onErrorResumeNext(RxErrorHandler<WeatherEntity>())
         tasks.take().run()
     }
-   fun checkCity(cityName :String, subscriber: Subscriber<CityEntity>){
+
+    // add a city to the database after checking correct city name using open weather api (get weather by city name)
+    // PS : in the case when this use case uses another webservice, the best way is to create a new use case class that
+    //     will use a new repository for example AddCityUseCase class will use CityRepository
+   fun checkAndAddCity(cityName :String, subscriber: Subscriber<CityEntity>){
        var tasks = LinkedBlockingQueue<Runnable>()
-       IWeatherRepository.checkCity(cityName,subscriber)
+       weatherRepository.checkAndAddCity(cityName,subscriber)
            .subscribeOn(Schedulers.io())
            .observeOn(Schedulers.from(Executor { runnable -> tasks.add(runnable) }))
            .onErrorResumeNext(RxErrorHandler<CityEntity>())
