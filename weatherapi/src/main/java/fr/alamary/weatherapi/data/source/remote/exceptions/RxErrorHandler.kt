@@ -10,6 +10,7 @@ import retrofit2.Response
  * Retrofit Error Handler to catch error with RX Observable
  */
 
+@Suppress("UNCHECKED_CAST")
 class RxErrorHandler<T> : Function<Throwable, ObservableSource<T>> {
 
     /***

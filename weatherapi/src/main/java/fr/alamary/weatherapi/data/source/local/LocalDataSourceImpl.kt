@@ -20,14 +20,14 @@ private val cityDao : CityDao = database.getCities()
     private val weatherDao : WeatherDao = database.getWeather()
 
     override fun getSavedCities(subscriber: Subscriber<List<CityEntity>>): Observable<List<CityEntity>> {
-        return cityDao.getAllCities(subscriber)
+        return cityDao.getAllCities()
     }
 
     override fun getSavedWeather(
         cityEntity: CityEntity,
         subscriber: Subscriber<WeatherEntity>
     ): Observable<WeatherEntity> {
-        return weatherDao.saveWeathers(cityEntity,subscriber)
+         return weatherDao.getWeatherByCity(cityEntity.cityId)
     }
     fun saveCity(cityEntity:CityEntity) {
         cityDao.saveCity(cityEntity)

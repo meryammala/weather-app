@@ -16,7 +16,7 @@ class WeatherUseCase() {
     private val weatherRepository: IWeatherRepository = WeatherRepositoryImpl()
 
     // Get global weather informations using one call weather api
-    fun getGlobalWeatherInformations(city : CityEntity, lang : String? = "EN", subscriber: Subscriber<WeatherEntity>){
+    fun getGlobalWeatherInformations(city : CityEntity, subscriber: Subscriber<WeatherEntity>){
         var tasks = LinkedBlockingQueue<Runnable>()
         weatherRepository.getWeather(city,subscriber)
             .subscribeOn(Schedulers.io())
