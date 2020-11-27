@@ -1,7 +1,7 @@
 package fr.alamary.weatherapi.domain.usecases
 
+import android.annotation.SuppressLint
 import fr.alamary.weatherapi.data.source.remote.exceptions.RxErrorHandler
-import fr.alamary.weatherapi.data.models.GlobalWeatherInformations
 import fr.alamary.weatherapi.data.repositories.WeatherRepositoryImpl
 import fr.alamary.weatherapi.domain.repositories.IWeatherRepository
 import fr.alamary.weatherapi.domain.entities.CityEntity
@@ -36,4 +36,16 @@ class WeatherUseCase() {
            .onErrorResumeNext(RxErrorHandler<CityEntity>())
        tasks.take().run()
    }
+
+    @SuppressLint("CheckResult")
+    fun getCities(subscriber: Subscriber<List<CityEntity>>) {
+        var tasks = LinkedBlockingQueue<Runnable>()
+        weatherRepository.getLocalCities(subscriber)
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.from(Executor { runnable -> tasks.add(runnable) }))
+            .onErrorResumeNext(RxErrorHandler<List<CityEntity>>())
+        tasks.take().run()
+    }
+
+
 }
