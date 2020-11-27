@@ -1,5 +1,6 @@
 package fr.alamary.weatherapi.data.source.remote.services
 
+import fr.alamary.weatherapi.data.models.GetWeatherByCityNameResponse
 import fr.alamary.weatherapi.data.models.GlobalWeatherInformations
 import retrofit2.Call
 import retrofit2.http.GET
@@ -38,4 +39,9 @@ interface IWeatherService {
         @Query("units") units :String? ="",
         @Query("lang") lang :String? =""
     ) : Call<GlobalWeatherInformations>
+
+    @GET("data/2.5/weather")
+    fun getWeatherByCityName(
+        @Query("q") cityName : String,
+        @Query("appid")apiKey : String): Call<GetWeatherByCityNameResponse>
 }
