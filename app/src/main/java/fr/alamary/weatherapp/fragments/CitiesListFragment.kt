@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import fr.alamary.weatherapi.domain.CityEntity
+import fr.alamary.weatherapi.domain.entities.CityEntity
 import fr.alamary.weatherapp.R
 import fr.alamary.weatherapp.adapters.CitiesListAdapter
 import fr.alamary.weatherapp.globals.BaseApplication
