@@ -1,7 +1,9 @@
 package fr.alamary.weatherapi.data.source.remote.exceptions
 
 import com.google.gson.Gson
+import fr.alamary.weatherapi.data.source.remote.globals.WeatherApiClient
 import retrofit2.Response
+import java.io.IOException
 
 /**
  * Custom Exception to handle custom Api Errors
@@ -16,7 +18,7 @@ class ApiException : ServiceException {
     private lateinit var response: Response<Any>
 
     /**
-     * Create the default aareonApiException object
+     * Create the default ApiException object
      */
     constructor(response: Response<Any>) : super("DEFAULT_ERROR_CODE") {
         ApiException(
@@ -27,7 +29,7 @@ class ApiException : ServiceException {
     }
 
     /**
-     * Create the default aareonApiException object with parameters
+     * Create the default ApiException object with parameters
      * @apiError : refer to the api response with a custom errorBody
      * @apiErrorCode: refer to the error code
      * @repsonse : the response fetech from retrofit Call<T>
@@ -43,9 +45,8 @@ class ApiException : ServiceException {
      */
     companion object {
         fun readApiError(response: Response<Any>): ModelError {
-            val body: String = response.errorBody()!!.source().buffer.clone().readUtf8();
+            return ErrorUtils.parseError(response)
 
-            return parseApiError(body);
         }
 
         fun parseApiError(body: String): ModelError {
@@ -54,4 +55,5 @@ class ApiException : ServiceException {
 
     }
     }
+
 

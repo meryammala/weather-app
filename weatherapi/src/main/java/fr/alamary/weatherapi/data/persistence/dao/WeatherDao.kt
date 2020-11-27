@@ -13,7 +13,7 @@ import org.reactivestreams.Subscriber
 interface WeatherDao {
 
     @Query("Select * from weathers where cityId = :mCityId")
-    fun getWeatherByCity(mCityId :Int): Observable<WeatherEntity>
+    fun getWeatherByCity(mCityId :Int): WeatherEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveWeathers(cityEntity: CityEntity)

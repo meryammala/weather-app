@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import fr.alamary.weatherapi.domain.entities.CityEntity
 import fr.alamary.weatherapp.R
@@ -62,7 +63,7 @@ class AddCityFragment : Fragment() {
     fun addCitySuccessObserver(): Observer<CityEntity> {
         return Observer {
             Toast.makeText(activity, "${it.name} has been added", Toast.LENGTH_LONG).show()
-            Navigation.createNavigateOnClickListener(R.id.show_cities_action)
+            findNavController().navigate(R.id.show_cities_action, null)
         }
     }
 

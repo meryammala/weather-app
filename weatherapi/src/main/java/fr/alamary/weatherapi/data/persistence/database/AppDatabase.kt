@@ -8,7 +8,7 @@ import fr.alamary.weatherapi.data.persistence.dao.WeatherDao
 import fr.alamary.weatherapi.domain.entities.CityEntity
 import fr.alamary.weatherapi.domain.entities.WeatherEntity
 
-@Database(entities = arrayOf(CityEntity::class,WeatherEntity::class,), version = 1)
+@Database(entities = arrayOf(CityEntity::class,WeatherEntity::class),exportSchema = false, version = 3)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getWeather(): WeatherDao

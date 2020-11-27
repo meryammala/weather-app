@@ -20,5 +20,7 @@ object DatabaseBuilder {
             context.applicationContext,
             AppDatabase::class.java,
             "weather-app-db"
-        ).build()
+        ).allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
+            .build()
 }

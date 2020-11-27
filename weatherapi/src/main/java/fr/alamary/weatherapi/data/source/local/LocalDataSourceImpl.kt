@@ -8,6 +8,8 @@ import fr.alamary.weatherapi.data.persistence.database.DatabaseBuilder
 import fr.alamary.weatherapi.domain.entities.CityEntity
 import fr.alamary.weatherapi.domain.entities.WeatherEntity
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Subscriber
 
 class LocalDataSourceImpl() : ILocalDataSource {
@@ -20,17 +22,25 @@ private val cityDao : CityDao = database.getCities()
     private val weatherDao : WeatherDao = database.getWeather()
 
     override fun getSavedCities(subscriber: Subscriber<List<CityEntity>>): Observable<List<CityEntity>> {
-        return cityDao.getAllCities()
+        return Observable.just(subscriber.onNext(cityDao.getAllCities()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())as Observable<List<CityEntity>>
+
     }
 
     override fun getSavedWeather(
         cityEntity: CityEntity,
         subscriber: Subscriber<WeatherEntity>
     ): Observable<WeatherEntity> {
-         return weatherDao.getWeatherByCity(cityEntity.cityId)
+         return Observable.just(subscriber.onNext(weatherDao.getWeatherByCity(cityEntity.cityId)))
+             .subscribeOn(Schedulers.io())
+             .observeOn(AndroidSchedulers.mainThread()) as Observable<WeatherEntity>
     }
     fun saveCity(cityEntity:CityEntity) {
-        cityDao.saveCity(cityEntity)
+        Observable.just(cityDao.saveCity(cityEntity))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
     }
 }
 
