@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import fr.alamary.weatherapi.domain.CityEntity
+import fr.alamary.weatherapi.domain.entities.CityEntity
 import fr.alamary.weatherapp.R
 
 class CitiesListAdapter(private var list: List<CityEntity>, private var context: Context, private val clickCallback: CitiesAdapterClickCallback) :
