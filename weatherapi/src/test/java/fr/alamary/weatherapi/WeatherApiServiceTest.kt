@@ -1,15 +1,11 @@
 package fr.alamary.weatherapi
 
 import android.content.Context
-import fr.alamary.weatherapi.data.models.GlobalWeatherInformations
-import fr.alamary.weatherapi.data.source.remote.exceptions.ServiceException
-import fr.alamary.weatherapi.data.source.remote.globals.AbstractServiceCallback
 import fr.alamary.weatherapi.data.source.remote.globals.ApiClientServiceProvider
-import fr.alamary.weatherapi.data.source.remote.globals.BaseApiResult
 import fr.alamary.weatherapi.data.source.remote.services.IWeatherService
-import fr.alamary.weatherapi.domain.CityEntity
-import fr.alamary.weatherapi.domain.IWeatherRepository
-import fr.alamary.weatherapi.domain.WeatherUseCase
+import fr.alamary.weatherapi.domain.entities.CityEntity
+import fr.alamary.weatherapi.domain.repositories.IWeatherRepository
+import fr.alamary.weatherapi.domain.usecases.WeatherUseCase
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
