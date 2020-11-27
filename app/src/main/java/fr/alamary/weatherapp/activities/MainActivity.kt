@@ -13,17 +13,15 @@ import fr.alamary.weatherapp.globals.ConnectionInternetLiveData
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var connectionLiveData: ConnectionInternetLiveData
     private lateinit var appBarConfiguration : AppBarConfiguration
     private lateinit var toolbar: Toolbar
     private lateinit var navController: NavController
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        connectionLiveData = ConnectionInternetLiveData(this)
 
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment? ?: return

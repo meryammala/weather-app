@@ -55,7 +55,7 @@ object WeatherApiClient {
      */
     private fun httpClient(): OkHttpClient {
         return OkHttpClient().newBuilder()
-            //.addInterceptor(LogJsonInterceptor())
+            .addInterceptor(LogJsonInterceptor())
             .addNetworkInterceptor(NetworkInterceptor()) // Add Network interceptor
             .connectTimeout(60, TimeUnit.SECONDS) // 30 seconds Connection Timeout
             .readTimeout(60, TimeUnit.SECONDS) // 60 seconds Read Timeout
