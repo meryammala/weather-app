@@ -26,7 +26,7 @@ class AddCityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<View>(R.id.addCityActionButton).setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.next_action)
+            Navigation.createNavigateOnClickListener(R.id.show_cities_action)
         )
     }
 }

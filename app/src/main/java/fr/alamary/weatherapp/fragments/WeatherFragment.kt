@@ -25,7 +25,7 @@ class WeatherFragment : Fragment() {
         view.findViewById<View>(
             R.id.backButton
         ).setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.next_action)
+            Navigation.createNavigateOnClickListener(R.id.show_cities_action)
         )
     }
 

@@ -16,8 +16,8 @@ class WeatherRepositoryImpl(private val weatherApiService : IWeatherService) : I
 
 
     override fun getCityWeather(city: CityEntity, subscriber: Subscriber<GlobalWeatherInformations>): Observable<GlobalWeatherInformations> {
-        val call = weatherApiService.getWeatherOneCall(lat = city.lat,
-            lon = city.lon,
+        val call = weatherApiService.getWeatherOneCall(lat = city.lat!!,
+            lon = city.lon!!,
             apiKey = ApiConfig().apiKey)
         return Observable.just(call.enqueue(object :
             AbstractServiceCallback<GlobalWeatherInformations>() {

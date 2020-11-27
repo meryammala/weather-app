@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add new city"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:textSize="24dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -19,7 +19,8 @@
         android:layout_height="70dp"
         android:layout_gravity="left|center_vertical"
         android:gravity="left|center_vertical"
-        android:hint="City name">
+        android:hint="@string/add_city_name"
+        android:layout_marginTop="15dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text_input_edit_text_city"

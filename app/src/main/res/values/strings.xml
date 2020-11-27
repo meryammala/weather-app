@@ -5,5 +5,8 @@
     <string name="cities_title">Your cities</string>
     <string name="add_city_title">New city</string>
     <string name="weather_details_title">Weather informations</string>
+    <string name="empty_list_cities">You do not have a registered city.\nYou can add a city at any time </string>
+    <string name="add_city_name">City name</string>
+    <string name="add_new_city">Add new city</string>
 
 </resources>

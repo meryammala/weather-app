@@ -9,7 +9,7 @@
         android:label="@string/cities_title"
         tools:layout="@layout/cities_fragment">
         <action
-            android:id="@+id/next_action"
+            android:id="@+id/show_weather_action"
             app:destination="@id/flow_weather_dest"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -34,7 +34,7 @@
             android:defaultValue="1"
             app:argType="integer" />
         <action
-            android:id="@+id/next_action"
+            android:id="@+id/show_cities_action"
             app:destination="@id/cities_dest"
             app:launchSingleTop="false"
             app:enterAnim="@anim/slide_in_left"
@@ -57,7 +57,7 @@
             app:argType="integer" />
 
         <action
-            android:id="@+id/next_action"
+            android:id="@+id/show_cities_action"
             app:popUpTo="@id/cities_dest"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
