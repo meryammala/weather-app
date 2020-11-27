@@ -12,7 +12,7 @@ import org.reactivestreams.Subscriber
 interface CityDao {
 
     @Query("Select * from cities")
-    fun getAllCities(subscriber: Subscriber<List<CityEntity>>): Observable<List<CityEntity>>
+    fun getAllCities(): Observable<List<CityEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveCity(city: CityEntity)

@@ -12,11 +12,11 @@ import org.reactivestreams.Subscriber
 @Dao
 interface WeatherDao {
 
-    @Query("Select * from weathers")
-    fun getWeatherByCity(cityEntity: CityEntity,subscriber: Subscriber<List<WeatherEntity>>): Observable<List<WeatherEntity>>
+    @Query("Select * from weathers where cityId = :mCityId")
+    fun getWeatherByCity(mCityId :Int): Observable<WeatherEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWeathers(cityEntity: CityEntity,subscriber: Subscriber<WeatherEntity>) : Observable<WeatherEntity>
+    fun saveWeathers(cityEntity: CityEntity)
 
     @Query("DELETE FROM weathers")
     fun clear()

@@ -20,9 +20,12 @@ class WeatherRepositoryImpl : IWeatherRepository {
         subscriber: Subscriber<WeatherEntity>
     ): Observable<WeatherEntity> {
         val updateNewsObservable = remote.getRemoteWeather(city, subscriber)
-        return cache.getSavedWeather(city, subscriber).mergeWith {
-            updateNewsObservable.doOnNext { cache.getSavedWeather(city, subscriber) }
-        }
+        return cache.getSavedWeather(city, subscriber).mergeWith(updateNewsObservable.doOnNext {
+            cache.getSavedWeather(
+                city,
+                subscriber
+            )
+        })
     }
 
     override fun getRemoteCityWeather(
