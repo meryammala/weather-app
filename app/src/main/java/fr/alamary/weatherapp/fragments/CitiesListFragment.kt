@@ -3,6 +3,7 @@ package fr.alamary.weatherapp.fragments
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -76,7 +77,8 @@ class CitiesListFragment : Fragment(), CitiesListAdapter.CitiesAdapterClickCallb
     }
 
     override fun onCityClicked(city: CityEntity) {
-        findNavController().navigate(R.id.show_weather_action, null)
+        val bundle = bundleOf("city" to city)
+        findNavController().navigate(R.id.show_weather_action, bundle)
     }
 
 

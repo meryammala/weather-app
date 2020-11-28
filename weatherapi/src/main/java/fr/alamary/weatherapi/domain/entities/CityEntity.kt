@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 @Entity(
     tableName = "cities",
@@ -28,5 +29,5 @@ data class CityEntity(
     @SerializedName("timezone") var timezone: String? = "",
     @SerializedName("timezoneOffset") var timezoneOffset: Int? = null,
     @SerializedName("country_code") val countryCode: String? = ""
-)
+): Serializable
 

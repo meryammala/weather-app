@@ -31,11 +31,10 @@ private val cityDao : CityDao = database.getCities()
     override fun getSavedWeather(
         cityEntity: CityEntity,
         subscriber: Subscriber<WeatherEntity>
-    ): Observable<WeatherEntity> {
-         return Observable.just(subscriber.onNext(weatherDao.getWeatherByCity(cityEntity.cityId)))
-             .subscribeOn(Schedulers.io())
-             .observeOn(AndroidSchedulers.mainThread()) as Observable<WeatherEntity>
-    }
+    ): Observable<WeatherEntity> =
+        Observable.just(subscriber.onNext(weatherDao.getWeatherByCity(cityEntity.cityId)))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()) as Observable<WeatherEntity>
     fun saveCity(cityEntity:CityEntity) {
         Observable.just(cityDao.saveCity(cityEntity))
             .subscribeOn(Schedulers.io())
