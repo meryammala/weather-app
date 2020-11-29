@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.alamary.weatherapi.domain.entities.CityEntity
 import fr.alamary.weatherapi.domain.entities.WeatherEntity
 import fr.alamary.weatherapp.R
+import fr.alamary.weatherapp.adapters.WeatherListAdapter
 import fr.alamary.weatherapp.globals.GlobalUtils
 import fr.alamary.weatherapp.viewmodels.CitiesViewModel
 import fr.alamary.weatherapp.viewmodels.WeatherViewModel
@@ -23,7 +24,6 @@ import fr.alamary.weatherapp.viewmodels.WeatherViewModel
 class WeatherFragment : Fragment() {
 
     private lateinit var selectedCity: CityEntity
-    private lateinit var currentWeather: WeatherEntity
     private lateinit var viewModel: WeatherViewModel
     private lateinit var cityNameTextView: TextView
     private lateinit var weatherDescriptionTextView: TextView
@@ -34,24 +34,28 @@ class WeatherFragment : Fragment() {
     private lateinit var humidityTextView: TextView
     private lateinit var hourlyWeatherRecyclerView: RecyclerView
     private lateinit var dailyWeatherRecyclerView: RecyclerView
+    private lateinit var hourlyForecastAdapter : WeatherListAdapter
+    private lateinit var dailyForecastAdapter : WeatherListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.weather_fragment, container, false)
         setHasOptionsMenu(true)
         selectedCity = arguments?.getSerializable("city") as CityEntity
-        return inflater.inflate(R.layout.weather_fragment, container, false)
+        initViews(view)
+
+        initViewModel()
+        getWeather(selectedCity)
+        return view
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews(view)
-        initViewModel()
-        getWeather(selectedCity)
     }
 
     fun initViewModel() {
@@ -65,7 +69,7 @@ class WeatherFragment : Fragment() {
     }
 
     fun getWeather(cityEntity: CityEntity) {
-        viewModel.getWeather(selectedCity)
+        viewModel.getWeather(cityEntity)
 
     }
 
@@ -96,6 +100,12 @@ class WeatherFragment : Fragment() {
             resources.getString(R.string.humidity_label, weatherEntity.humidity.toString()) + "%"
         feelsLikeTextView.text =
             resources.getString(R.string.feels_like_label, weatherEntity.feelsLike.toString())
+
+        dailyForecastAdapter = WeatherListAdapter(weatherEntity.daily,requireActivity(),2)
+        hourlyForecastAdapter = WeatherListAdapter(weatherEntity.hourly,requireActivity(),1)
+
+        hourlyWeatherRecyclerView.adapter = hourlyForecastAdapter
+        dailyWeatherRecyclerView.adapter = dailyForecastAdapter
 
     }
 

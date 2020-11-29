@@ -4,44 +4,110 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import fr.alamary.weatherapi.domain.entities.CityEntity
+import fr.alamary.weatherapi.domain.entities.ForecastEntity
 import fr.alamary.weatherapp.R
+import fr.alamary.weatherapp.globals.DateTimeUtils
+import fr.alamary.weatherapp.globals.DateTimeUtils.Companion.fromUnixToDate
+import fr.alamary.weatherapp.globals.GlobalUtils
 
-class WeatherListAdapter(private var list: List<CityEntity>, private var context: Context, private val clickCallback: CitiesAdapterClickCallback) :
+
+class WeatherListAdapter(
+    private var list: List<ForecastEntity>,
+    private var context: Context,
+    val type: Int
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    companion object {
+        const val TYPE_HOURLY = 1
+        const val TYPE_DAILY = 2
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return type
+    }
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CitiesListViewHolder(LayoutInflater.from(context).inflate(R.layout.city_item_layout, parent, false))
+        return when (type) {
+            TYPE_DAILY -> DailyListViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.daily_weather_layout, parent, false)
+            )
+            TYPE_HOURLY -> HourlyListViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.hourly_weather_layout, parent, false)
+            )
+            else ->
+                HourlyListViewHolder(
+                    LayoutInflater.from(context)
+                        .inflate(R.layout.hourly_weather_layout, parent, false)
+                )
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as CitiesListViewHolder).bind(list[position],clickCallback)
+        when (holder) {
+            is HourlyListViewHolder -> holder.bind(list[position], context)
+            is DailyListViewHolder -> holder.bind(list[position], context,position)
+        }
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
-    class CitiesListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private var cityName = itemView.findViewById<TextView>(R.id.city_name_textView)
+    class HourlyListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(city : CityEntity,clickCallback : CitiesAdapterClickCallback){
-            cityName.text = city.name
-            itemView.setOnClickListener {
-                clickCallback.onCityClicked(city)
-            }
+        private var timeText = itemView.findViewById<TextView>(R.id.hour_textView)
+        private var weatherIcon = itemView.findViewById<ImageView>(R.id.weather_icon)
+        private var tempTextView = itemView.findViewById<TextView>(R.id.temp_textView)
+
+        fun bind(forecastEntity: ForecastEntity, context: Context) {
+            var date = fromUnixToDate(forecastEntity.dt.toLong())
+            timeText.text = DateTimeUtils.toHour(date)
+            weatherIcon.setImageDrawable(
+                GlobalUtils.getDrawableFromString(
+                    context,
+                    "weather_${forecastEntity.icon}"
+                )
+            )
+            tempTextView.text = context.resources.getString(R.string.temp_value,forecastEntity.temp.toString())
         }
 
     }
 
-    interface CitiesAdapterClickCallback {
-        fun onCityClicked(city: CityEntity)
+    class DailyListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private var day_textView = itemView.findViewById<TextView>(R.id.day_textView)
+        private var weatherIcon = itemView.findViewById<ImageView>(R.id.weather_icon)
+        private var tempTextView = itemView.findViewById<TextView>(R.id.temp_textView)
+
+        fun bind(forecastEntity: ForecastEntity, context: Context, position: Int) {
+            if (position == 0) {
+                day_textView.text = context.resources.getString(R.string.tomorrow_label)
+            } else {
+                day_textView.text =
+                    DateTimeUtils.toDayMonth(fromUnixToDate(forecastEntity.dt.toLong()))
+
+            }
+            weatherIcon.setImageDrawable(
+                GlobalUtils.getDrawableFromString(
+                    context,
+                    "weather_${forecastEntity.icon}"
+                )
+            )
+            tempTextView.text = context.resources.getString(
+                R.string.temp_value,
+                "${forecastEntity.tempMin}/${forecastEntity.tempMax}"
+            )
+        }
+
     }
+
 
 }
