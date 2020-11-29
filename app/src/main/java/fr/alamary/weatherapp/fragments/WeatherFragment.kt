@@ -68,6 +68,9 @@ class WeatherFragment : Fragment() {
                 hideProgress()
                 bindWeather(it)
             })
+        viewModel.getWeatherFailureLiveData.observe(viewLifecycleOwner,{
+            hideProgress()
+        })
     }
 
     fun getWeather(cityEntity: CityEntity) {

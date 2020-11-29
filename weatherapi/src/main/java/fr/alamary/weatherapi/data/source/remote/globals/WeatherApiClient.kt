@@ -2,14 +2,13 @@ package fr.alamary.weatherapi.data.source.remote.globals
 
 import android.util.Log
 import com.google.gson.GsonBuilder
+import fr.alamary.weatherapi.WeatherApiInitializer
+import fr.alamary.weatherapi.data.source.remote.exceptions.NoConnectivityException
 import fr.alamary.weatherapi.data.source.remote.globals.ApiConfig.Companion.CONTENT_TYPE_KEY
 import fr.alamary.weatherapi.data.source.remote.globals.ApiConfig.Companion.CONTENT_TYPE_VALUE
 import fr.alamary.weatherapi.data.source.remote.globals.ApiConfig.Companion.H_ACCEPT_JSON
 import fr.alamary.weatherapi.data.source.remote.globals.ApiConfig.Companion.H_ACCEPT_KEY
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.ResponseBody
+import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -56,6 +55,7 @@ object WeatherApiClient {
     private fun httpClient(): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(LogJsonInterceptor())
+            .addInterceptor(ConnectivityInterceptor())
             .addNetworkInterceptor(NetworkInterceptor()) // Add Network interceptor
             .connectTimeout(60, TimeUnit.SECONDS) // 30 seconds Connection Timeout
             .readTimeout(60, TimeUnit.SECONDS) // 60 seconds Read Timeout
@@ -96,6 +96,18 @@ object WeatherApiClient {
                 .build()
 
             return chain.proceed(requestBuilder)
+
+        }
+
+    }
+    class ConnectivityInterceptor : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response {
+            if (!NetworkUtil.isOnline(WeatherApiInitializer.mContext)) {
+                throw NoConnectivityException()
+            }
+
+            val builder: Request.Builder = chain.request().newBuilder()
+            return chain.proceed(builder.build())
 
         }
 
