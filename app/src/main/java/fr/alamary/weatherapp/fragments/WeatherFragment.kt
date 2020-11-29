@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -34,8 +35,9 @@ class WeatherFragment : Fragment() {
     private lateinit var humidityTextView: TextView
     private lateinit var hourlyWeatherRecyclerView: RecyclerView
     private lateinit var dailyWeatherRecyclerView: RecyclerView
-    private lateinit var hourlyForecastAdapter : WeatherListAdapter
-    private lateinit var dailyForecastAdapter : WeatherListAdapter
+    private lateinit var hourlyForecastAdapter: WeatherListAdapter
+    private lateinit var dailyForecastAdapter: WeatherListAdapter
+    private lateinit var progresContainer: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,14 +49,14 @@ class WeatherFragment : Fragment() {
         selectedCity = arguments?.getSerializable("city") as CityEntity
         initViews(view)
 
-        initViewModel()
-        getWeather(selectedCity)
         return view
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewModel()
+        getWeather(selectedCity)
 
     }
 
@@ -63,14 +65,14 @@ class WeatherFragment : Fragment() {
 
         viewModel.getWeatherSuccessLiveData.observe(viewLifecycleOwner,
             Observer {
+                hideProgress()
                 bindWeather(it)
-
             })
     }
 
     fun getWeather(cityEntity: CityEntity) {
         viewModel.getWeather(cityEntity)
-
+        showProgress()
     }
 
     fun initViews(view: View) {
@@ -83,6 +85,7 @@ class WeatherFragment : Fragment() {
         dailyWeatherRecyclerView = view.findViewById(R.id.daily_weather_recyclerView)
         feelsLikeTextView = view.findViewById(R.id.feels_like_textView)
         humidityTextView = view.findViewById(R.id.humidity_textView)
+        progresContainer = view.findViewById(R.id.progresContainer)
     }
 
     fun bindWeather(weatherEntity: WeatherEntity) {
@@ -101,12 +104,18 @@ class WeatherFragment : Fragment() {
         feelsLikeTextView.text =
             resources.getString(R.string.feels_like_label, weatherEntity.feelsLike.toString())
 
-        dailyForecastAdapter = WeatherListAdapter(weatherEntity.daily,requireActivity(),2)
-        hourlyForecastAdapter = WeatherListAdapter(weatherEntity.hourly,requireActivity(),1)
+        dailyForecastAdapter = WeatherListAdapter(weatherEntity.daily, requireActivity(), 2)
+        hourlyForecastAdapter = WeatherListAdapter(weatherEntity.hourly, requireActivity(), 1)
 
         hourlyWeatherRecyclerView.adapter = hourlyForecastAdapter
         dailyWeatherRecyclerView.adapter = dailyForecastAdapter
 
+    }
+    fun showProgress(){
+        progresContainer.visibility = View.VISIBLE
+    }
+    fun hideProgress(){
+        progresContainer.visibility = View.GONE
     }
 
 }
