@@ -39,6 +39,11 @@ class WeatherFragment : Fragment() {
     private lateinit var dailyForecastAdapter: WeatherListAdapter
     private lateinit var progresContainer: ConstraintLayout
 
+    companion object{
+        const val HOURLY = 1
+        const val DAILY = 2
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -107,8 +112,8 @@ class WeatherFragment : Fragment() {
         feelsLikeTextView.text =
             resources.getString(R.string.feels_like_label, weatherEntity.feelsLike.toString())
 
-        dailyForecastAdapter = WeatherListAdapter(weatherEntity.daily, requireActivity(), 2)
-        hourlyForecastAdapter = WeatherListAdapter(weatherEntity.hourly, requireActivity(), 1)
+        dailyForecastAdapter = WeatherListAdapter(weatherEntity.daily, requireActivity(), DAILY)
+        hourlyForecastAdapter = WeatherListAdapter(weatherEntity.hourly, requireActivity(), HOURLY)
 
         hourlyWeatherRecyclerView.adapter = hourlyForecastAdapter
         dailyWeatherRecyclerView.adapter = dailyForecastAdapter

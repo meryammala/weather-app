@@ -8,12 +8,13 @@ import fr.alamary.weatherapi.domain.usecases.WeatherUseCase
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 
-class WeatherViewModel  : BaseViewModel(){
+class WeatherViewModel  : ViewModel(){
 
     val getWeatherSuccessLiveData = MutableLiveData<WeatherEntity>()
     val getWeatherFailureLiveData = MutableLiveData<Throwable>()
     private val usecase = WeatherUseCase()
 
+    //fetch weather using weatherUsecase
     fun getWeather(cityEntity: CityEntity){
         usecase.getGlobalWeatherInformations(cityEntity,GerWeatherSubscriber())
     }

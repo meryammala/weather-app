@@ -9,7 +9,7 @@ import org.reactivestreams.Subscriber
 interface IWeatherRepository {
 
     // global getWeather method allow to fetch weather from data source (remote / local)
-    fun getWeather(city : CityEntity,  subscriber: Subscriber<WeatherEntity>) : Observable<WeatherEntity>
+    fun getWeather(city : CityEntity, subscriber: Subscriber<WeatherEntity>) : Observable<WeatherEntity>
 
     // Fetch remote weather using api
     fun getRemoteCityWeather(city : CityEntity, subscriber: Subscriber<WeatherEntity>) : Observable<WeatherEntity>

@@ -31,10 +31,19 @@ private val cityDao : CityDao = database.getCities()
     override fun getSavedWeather(
         cityEntity: CityEntity,
         subscriber: Subscriber<WeatherEntity>
-    ): Observable<WeatherEntity> =
-        Observable.just(subscriber.onNext(weatherDao.getWeatherByCity(cityEntity.cityId)))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()) as Observable<WeatherEntity>
+    ): Observable<WeatherEntity> {
+        val stored = weatherDao.getWeatherByCity(cityEntity.cityId)
+        if(stored != null){
+            return Observable.just(subscriber.onNext(weatherDao.getWeatherByCity(cityEntity.cityId)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()) as Observable<WeatherEntity>
+        }else {
+            return Observable.just(subscriber.onError(Exception("no data stored"))
+            )  as Observable<WeatherEntity>
+        }
+
+    }
+
     fun saveCity(cityEntity:CityEntity) {
         Observable.just(cityDao.saveCity(cityEntity))
             .subscribeOn(Schedulers.io())
@@ -46,7 +55,7 @@ private val cityDao : CityDao = database.getCities()
             .observeOn(AndroidSchedulers.mainThread())
     }
     fun findCityByName(cityname:String): CityEntity {
-        return cityDao.getAllCities().first { it.name == cityname }
+        return cityDao.getAllCities().filter { it.name == cityname }.first()
     }
 }
 

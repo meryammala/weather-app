@@ -102,6 +102,11 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         unregisterReceiver(myReceiver)
     }
+
+    override fun onResume() {
+        super.onResume()
+        broadcastIntent()
+    }
     open inner class MyReceiver() : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             var status: String = getConnectivityStatusString(context)!!

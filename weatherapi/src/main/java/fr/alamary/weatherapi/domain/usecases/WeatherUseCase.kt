@@ -1,6 +1,7 @@
 package fr.alamary.weatherapi.domain.usecases
 
 import android.annotation.SuppressLint
+import androidx.annotation.Nullable
 import fr.alamary.weatherapi.data.source.remote.exceptions.RxErrorHandler
 import fr.alamary.weatherapi.data.repositories.WeatherRepositoryImpl
 import fr.alamary.weatherapi.domain.repositories.IWeatherRepository
@@ -9,7 +10,6 @@ import fr.alamary.weatherapi.domain.entities.WeatherEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Subscriber
-import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -18,7 +18,9 @@ class WeatherUseCase() {
 
     // Get global weather informations using one call weather api
     @SuppressLint("CheckResult")
-    fun getGlobalWeatherInformations(city : CityEntity, subscriber: Subscriber<WeatherEntity>){
+    fun getGlobalWeatherInformations(
+        city: CityEntity,
+        subscriber: Subscriber<WeatherEntity>){
         weatherRepository.getWeather(city,subscriber)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -43,6 +45,7 @@ class WeatherUseCase() {
             .observeOn(AndroidSchedulers.mainThread())
             .onErrorResumeNext(RxErrorHandler<List<CityEntity>>())
     }
+
 
 
 }

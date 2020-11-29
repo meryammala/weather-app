@@ -1,12 +1,13 @@
 package fr.alamary.weatherapp.viewmodels
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import fr.alamary.weatherapi.domain.entities.CityEntity
 import fr.alamary.weatherapi.domain.usecases.WeatherUseCase
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 
-class CitiesViewModel : BaseViewModel() {
+class CitiesViewModel : ViewModel() {
 
     private val weatherUseCase = WeatherUseCase()
 
