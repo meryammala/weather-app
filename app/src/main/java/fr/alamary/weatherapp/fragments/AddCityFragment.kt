@@ -10,12 +10,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import fr.alamary.weatherapi.domain.entities.CityEntity
 import fr.alamary.weatherapp.R
-import fr.alamary.weatherapp.globals.ConnectionInternetLiveData
 import fr.alamary.weatherapp.viewmodels.CitiesViewModel
 
 class AddCityFragment : Fragment() {
