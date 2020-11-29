@@ -8,5 +8,11 @@
     <string name="empty_list_cities">You do not have a registered city.\nYou can add a city at any time </string>
     <string name="add_city_name">City name</string>
     <string name="add_new_city">Add new city</string>
+    <string name="humidity_label">Humidity $%s</string>
+    <string name="wind_label">Wind $%s</string>
+    <string name="sunrise_label">Sunrise $%s</string>
+    <string name="sunset_label">Sunrise $%s</string>
+    <string name="feels_like_label">Feels like $%s °C</string>
+    <string name="temp_value">$%s °C</string>
 
 </resources>

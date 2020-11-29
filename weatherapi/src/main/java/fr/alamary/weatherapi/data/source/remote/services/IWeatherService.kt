@@ -35,9 +35,9 @@ interface IWeatherService {
         @Query("lat")lat : Double,
         @Query("lon")lon : Double,
         @Query("appid")apiKey : String,
-        @Query("exclude") excludes :String? ="",
-        @Query("units") units :String? ="",
-        @Query("lang") lang :String? =""
+        @Query("exclude") excludes :String? ="minutely",
+        @Query("units") units :String? ="metric",
+        @Query("lang") lang :String? ="EN"
     ) : Call<GlobalWeatherInformations>
 
     @GET("data/2.5/weather")
