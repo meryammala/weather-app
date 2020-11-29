@@ -16,7 +16,7 @@ interface WeatherDao {
     fun getWeatherByCity(mCityId :Int): WeatherEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWeathers(cityEntity: CityEntity)
+    fun saveWeathers(weatherEntity: WeatherEntity)
 
     @Query("DELETE FROM weathers")
     fun clear()

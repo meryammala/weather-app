@@ -1,14 +1,12 @@
 package fr.alamary.weatherapi.domain.entities
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import fr.alamary.weatherapi.data.models.*
 
-@Entity(tableName = "weathers",
+@Entity(
+    tableName = "weathers",
     foreignKeys = [ForeignKey(
         entity = CityEntity::class,
         parentColumns = arrayOf("cityId"),
@@ -16,45 +14,49 @@ import fr.alamary.weatherapi.data.models.*
         onDelete = CASCADE
     )]
 )
-class WeatherEntity(
-    @PrimaryKey(autoGenerate = true)
-    var idWeather: Int = 0,
-
-    @ColumnInfo(name = "cityId", index = true)
-    var cityId: Int = 0,
-
+data class WeatherEntity(
     @ColumnInfo(name = "dt", index = true)
     var dt: Int,
 
     @SerializedName("sunrise")
-    val sunrise: Int,
+    var sunrise: Int,
     @SerializedName("sunset")
-    val sunset: Int,
+    var sunset: Int,
     @SerializedName("temp")
-    val temp: Double,
+    var temp: Double,
     @SerializedName("feels_like")
-    val feelsLike: Double,
+    var feelsLike: Double,
     @SerializedName("pressure")
-    val pressure: Int,
+    var pressure: Int,
     @SerializedName("humidity")
-    val humidity: Int,
+    var humidity: Int,
     @SerializedName("dew_point")
-    val dewPoint: Double,
+    var dewPoint: Double,
     @SerializedName("uvi")
-    val uvi: Double,
+    var uvi: Double,
     @SerializedName("clouds")
-    val clouds: Int,
+    var clouds: Int,
     @SerializedName("visibility")
-    val visibility: Int,
+    var visibility: Int,
     @SerializedName("wind_speed")
-    val windSpeed: Double,
+    var windSpeed: Double,
     @SerializedName("wind_deg")
-    val windDeg: Int,
+    var windDeg: Int,
     @SerializedName("id")
-    val id: Int,
+    var id: Int,
     @SerializedName("main")
-    val main: String,
+    var main: String,
     @SerializedName("description")
-    val description: String,
+    var description: String,
     @SerializedName("icon")
-    val icon: String)
+    var icon: String,
+    var hourly: List<ForecastEntity>,
+    var daily: List<ForecastEntity>
+){
+    @PrimaryKey(autoGenerate = true)
+    var idWeather : Int =0
+    @ColumnInfo(name = "cityId", index = true)
+    var cityId: Int = 0
+}
+
+

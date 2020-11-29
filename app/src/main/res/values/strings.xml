@@ -14,5 +14,7 @@
     <string name="sunset_label">Sunrise %1$s</string>
     <string name="feels_like_label">Feels like %1$s °C</string>
     <string name="temp_value">%1$s °C</string>
+    <string name="today_label">Today</string>
+    <string name="tomorrow_label">Tomorrow</string>
 
 </resources>

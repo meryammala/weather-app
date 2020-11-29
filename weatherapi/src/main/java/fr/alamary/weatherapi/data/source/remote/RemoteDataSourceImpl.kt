@@ -20,6 +20,7 @@ import org.reactivestreams.Subscriber
 
 class RemoteDataSourceImpl : IRemoteDataSource {
     private val weatherApiService : IWeatherService = ApiClientServiceProvider.buildWeatherService()
+    private val localStore =  LocalDataSourceImpl()
 
     override fun saveCity(cityName: String,subscriber :Subscriber<CityEntity> ) : Observable<CityEntity>{
         val call = weatherApiService.getWeatherByCityName(cityName, ApiConfig().apiKey)
@@ -32,7 +33,7 @@ class RemoteDataSourceImpl : IRemoteDataSource {
             override fun handleSuccess(serviceResult: BaseApiResult<GetWeatherByCityNameResponse>) {
                 val cityEntity = CityMapper().mapToEntity(serviceResult.data)
                 //Save the city in database
-                LocalDataSourceImpl().saveCity(cityEntity)
+                localStore.saveCity(cityEntity)
                 subscriber.onNext(cityEntity)
             }
 
@@ -51,7 +52,11 @@ class RemoteDataSourceImpl : IRemoteDataSource {
             }
 
             override fun handleSuccess(serviceResult: BaseApiResult<GlobalWeatherInformations>) {
-                subscriber.onNext(WeatherMapper().mapToEntity(serviceResult.data))
+                val weatherEntity = WeatherMapper().mapToEntity(serviceResult.data)
+                val storeCity = localStore.findCityByName(cityname = city.name!!)
+                weatherEntity.cityId = storeCity.cityId
+                localStore.saveWaether(weatherEntity)
+                subscriber.onNext(weatherEntity)
             }
 
 

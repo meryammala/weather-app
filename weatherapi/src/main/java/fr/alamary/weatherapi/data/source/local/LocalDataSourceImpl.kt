@@ -39,7 +39,14 @@ private val cityDao : CityDao = database.getCities()
         Observable.just(cityDao.saveCity(cityEntity))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-
+    }
+    fun saveWaether(weatherEntity: WeatherEntity) {
+        Observable.just(weatherDao.saveWeathers(weatherEntity))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun findCityByName(cityname:String): CityEntity {
+        return cityDao.getAllCities().first { it.name == cityname }
     }
 }
 
